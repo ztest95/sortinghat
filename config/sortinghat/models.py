@@ -19,10 +19,13 @@ class Name(models.Model):
     def save (self, *args, **kwargs):
         if not self.house:
             self.house = random.choice([choice[0] for choice in self.CHOICES])
+
+        self.name = self.name.lower()
+        
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.user}: {self.name} is in {self.house} house"
+        return f"{self.user.username} - {self.name} - {self.house}"
     
     def serialize(self):
         return {

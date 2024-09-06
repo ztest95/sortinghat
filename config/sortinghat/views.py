@@ -17,7 +17,7 @@ def getHouse(request, name):
     else:
 
         try:
-            name = Name.objects.get(user=request.user, name=name)
+            name = Name.objects.get(user=request.user, name=name.lower())
             house = name.serialize()["house"]
         except Name.DoesNotExist:
             house = None
