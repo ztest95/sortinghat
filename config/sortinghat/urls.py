@@ -4,5 +4,6 @@ from django.urls import path, include
 import sortinghat.views as views
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.sortinghat, name='home'),
+    path('api/sortinghat/<str:name>', views.getHouse, name='getHouse'),
 ]
