@@ -9,9 +9,9 @@ from sortinghat.views import sortinghat
 
 # Create your views here.
 
-def open_link(request, link):
+def open_link(request, uuid):
     try:
-        link = Link.objects.get(link=link)
+        uuid = Link.objects.get(uuid=uuid)
     except Link.DoesNotExist:
         return render(request, '404.html')
 

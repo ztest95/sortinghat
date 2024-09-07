@@ -1,6 +1,10 @@
-{% for link in links %}
-    <a href="{% url 'open_link' link.link %}">{{ link.link }}</a>
-{% endfor %}
+{% if links %}
+    {% for link in links %}
+        <a href="{% url 'open_link' link.uuid %}">{{ link.name }}</a>
+    {% endfor %}
+{% else %}
+    <p>No links available</p>
+{% endif %}
 
 <br>
 <br>
