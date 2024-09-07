@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Name</title>
+</head>
+<body>
+    <h1>Add Name</h1>
+    <form method="post">
+        {% if message %}
+            {{ message }}
+        {% endif %}
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

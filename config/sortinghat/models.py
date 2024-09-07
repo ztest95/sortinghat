@@ -1,12 +1,13 @@
 import random
 from django.db import models
 
+from django.forms import ModelForm
 from authz.models import User
 
 # Create your models here.
 
 class Name(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     CHOICES = (
         ('G', 'Gryffindor'),
@@ -25,11 +26,16 @@ class Name(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.user.username} - {self.name} - {self.house}"
+        return f"{self.name} - {self.get_house_display()}"
     
     def serialize(self):
         return {
-            "user": self.user.username,
+            "id": self.id,
             "name": self.name,
             "house": self.house
         }
+
+class NameForm(ModelForm):
+    class Meta:
+        model = Name
+        fields = ['name', 'house']

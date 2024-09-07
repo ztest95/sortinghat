@@ -1,0 +1,8 @@
+{% if names %}
+    <h2>Names</h2>
+    <ul>
+        {% for name in names %}
+        <li>{{ name }}, <a href="{% url 'delete_name' name.id %}"> delete </a></li>
+        {% endfor %}
+    </ul>
+{% endif %}
