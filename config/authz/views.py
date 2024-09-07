@@ -7,6 +7,9 @@ from django.db import IntegrityError
 from authz.models import User
 # Create your views here.
 
+def login_reverse(request):
+    return reverse("view_links", kwargs={'user': request.user.username})
+
 def login_user(request):
     if request.method == "POST":
         print(request.POST)
@@ -18,7 +21,7 @@ def login_user(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("home"))
+            return HttpResponseRedirect(login_reverse(request))
         else:
             return render(request, "auth/login.html", {
                 "message": "Invalid username and/or password."
@@ -26,13 +29,16 @@ def login_user(request):
         
     elif request.user.is_authenticated:
         # Feat: Might be good to have a bit of a message here before redirecting
-        return HttpResponseRedirect(reverse("home"))
+        return HttpResponseRedirect(login_reverse(request))
     
     else:
         return render(request, "auth/login.html")
 
 def register_user(request):
-    if request.method == "POST":
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(login_reverse(request))
+    
+    elif request.method == "POST":
 
         username = request.POST["username"]
         password = request.POST["password"]
@@ -53,12 +59,12 @@ def register_user(request):
             })
         
         login(request, user)
-        return HttpResponseRedirect(reverse("home"))
+        return HttpResponseRedirect(login_reverse(request))
     
     else:
         return render(request, "auth/register.html")
     
 def logout_user(request):
     logout(request)
-    return HttpResponseRedirect(reverse("home"))
+    return HttpResponseRedirect(reverse("login"))
 

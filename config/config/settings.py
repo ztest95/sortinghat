@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'authz',
+    'link',
     'sortinghat',
     'django.contrib.admin',
     'django.contrib.auth',

@@ -748,7 +748,7 @@
     <script id="rendered-js">
 
         async function getHouse(name) {
-            const url = `/api/sortinghat/${name}`;
+            const url = `${window.location.origin}/api/sortinghat/${name}`;
 
             const response = await fetch(url, {
                 method: "GET"
