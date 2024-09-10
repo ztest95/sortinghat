@@ -7,7 +7,32 @@ from django.db import IntegrityError  # Add this import statement
 from sortinghat.models import Name, NameForm
 
 def sortinghat(request):
-    return render(request, 'sortinghat/sortinghat.html')
+    show_setting = False
+
+    if request.user.is_authenticated:
+        show_setting = True
+
+    return render(request, 'sortinghat/sortinghat.html',
+        {'show_setting': show_setting})
+
+def utils_get_names():
+
+    names = Name.objects.filter()
+    return names
+
+def utils_add_name(name, house):
+
+    name = Name(name=name, house=house)
+    name.save()
+
+    return name.id
+    
+def utils_delete_name(id):
+
+    name = Name.objects.get(id=id)
+    name.delete()
+
+    return 
 
 def add_name(request):
     message = ''
@@ -17,20 +42,20 @@ def add_name(request):
         house = request.POST['house']
 
         name = Name(name=name, house=house)
-        try:
-            name.save()
-            message = 'Name added successfully'
-        except IntegrityError:
-            message = 'Error adding name'
+        name.save()
 
-    return render(request, 'sortinghat/addname.html', {
-        'form': NameForm(),
-        'message': message
-    })
+    return HttpResponseRedirect(reverse('view_names'))
 
 def view_names(request):
+
+    if request.method == 'POST':
+        add_name(request)
+
     names = Name.objects.filter()
-    return render(request, 'sortinghat/viewnames.html', {'names': names})
+    return render(request, 'sortinghat/viewnames.html', {
+        'names': names,
+        'form': NameForm()
+        })
 
 def delete_name(request, id):
     name = Name.objects.get(id=id)
@@ -39,17 +64,12 @@ def delete_name(request, id):
 
 def getHouse(request, name):
 
-    if request.method == 'POST':
-        pass
+    try:
+        name = Name.objects.filter(name=name.lower()).last()
+        if name is None:
+            raise Name.DoesNotExist
+        house = name.serialize()["house"]
+    except Name.DoesNotExist:
+        house = None
 
-    else:
-
-        try:
-            name = Name.objects.filter(name=name.lower()).first()
-            if name is None:
-                raise Name.DoesNotExist
-            house = name.serialize()["house"]
-        except Name.DoesNotExist:
-            house = None
-
-        return JsonResponse({'house': house}, safe=False)
+    return JsonResponse({'house': house}, safe=False)

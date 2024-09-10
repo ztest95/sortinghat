@@ -2,7 +2,16 @@
     <h2>Names</h2>
     <ul>
         {% for name in names %}
-        <li>{{ name }}, <a href="{% url 'delete_name' name.id %}"> delete </a></li>
+        <li>{{ name.name }}, <a href="{% url 'delete_name' id=name.id %}"> delete </a></li>
         {% endfor %}
     </ul>
 {% endif %}
+
+<form method="post">
+    {% if message %}
+        {{ message }}
+    {% endif %}
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Submit</button>
+</form>

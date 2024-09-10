@@ -740,9 +740,14 @@
                 <label for="avatar-female">Long</label>
             </div>
         </div>
-        <!-- <footer>
-            <a href="https://github.com/" target="_blank"><i class="icon-social-github icons"></i></a>
-        </footer> -->
+        <footer>
+            <!-- <a href="https://github.com/" target="_blank"><i class="icon-social-github icons"></i></a> -->
+            {% if show_setting %}
+                <a href="./view-names">
+                    <i class="icon-settings icons"></i>
+                </a>
+            {% endif %}
+        </footer>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script id="rendered-js">
