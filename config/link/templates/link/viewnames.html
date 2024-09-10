@@ -1,0 +1,21 @@
+{% if names %}
+    <h2>Names</h2>
+    <ul>
+        {% if names %}
+            {% for name in names %}
+            <li>{{ name.name }}, {{name.house}} <a href="{% url 'delete_name' uuid=link.uuid id=name.id %}"> delete </a></li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+{% endif %}
+
+<form method="post">
+    {% if message %}
+        {{ message }}
+    {% endif %}
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Submit</button>
+</form>
+
+<a href="{% url 'open_link' uuid=link.uuid %}">Go Back To Sorting Hat</a>

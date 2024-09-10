@@ -36,16 +36,17 @@ class NameLink(models.Model):
     name = models.ForeignKey('sortinghat.Name', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user.username} - {self.link.name} - {self.link.uuid}"
+        return f"{self.link.name} - {self.link.uuid}"
     
     def serialize(self):
-        return {
-            "user": self.user.username,
-            "link": self.link.name,
-            "uuid": self.link.uuid
+        houses = {
+            'G': 'Gryffindor',
+            'H': 'Hufflepuff',
+            'R': 'Ravenclaw',
+            'S': 'Slytherin'
         }
-    
-    # def save(self, *args, **kwargs):
-    #     if not self.link:
-    #         self.link = Link.objects.create(user=self.user, name="default")
-    #     super().save(*args, **kwargs)
+        return {
+            "name": self.name.name,
+            "id": self.name.id,
+            "house": houses[self.name.house]
+        }
