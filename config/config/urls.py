@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from sortinghat.views import sortinghat
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('authz.urls')),
     path('', include('link.urls')),
-    path('', include('sortinghat.urls')), # unauth app
+    path('', sortinghat, name='sortinghat'), # unauthenticated sortinghat
 ]

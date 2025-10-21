@@ -755,9 +755,13 @@
                     <i class="icon-settings icons"></i>
                 </a>
             {% endif %}
-            {% if not authenticated %}
+            {% if authenticated %}
                 <a href="/register">
                     <i class="icon-login icons"></i>
+                </a>
+            {% else %}
+                <a href="/logout">
+                    <i class="icon-logout icons"></i>
                 </a>
             {% endif %}
         </footer>
