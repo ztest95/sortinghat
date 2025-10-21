@@ -1,3 +1,5 @@
+import random
+
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
@@ -63,6 +65,10 @@ def delete_name(request, id):
     return HttpResponseRedirect(reverse('view_names'))
 
 def getHouse(request, name):
+
+    if not request.user.is_authenticated:
+        random_house = random.choice(['G', 'H', 'R', 'S'])
+        return JsonResponse({'house': random_house}, safe=False)
 
     try:
         name = Name.objects.filter(name=name.lower()).last()

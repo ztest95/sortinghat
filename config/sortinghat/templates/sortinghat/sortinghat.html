@@ -740,11 +740,24 @@
                 <label for="avatar-female">Long</label>
             </div>
         </div>
+        <aside class="context">
+            <div class="explanation">
+                The Sorting Hat takes your preference into account. <br/>
+                Unfortunately, JavaScript doesn't.<br/>
+
+                <br/>Want to instruct the sorting hat? <br/> Create a database with the button below
+            </div>
+        </aside>
         <footer>
             <!-- <a href="https://github.com/" target="_blank"><i class="icon-social-github icons"></i></a> -->
             {% if show_setting %}
                 <a href="./view-names">
                     <i class="icon-settings icons"></i>
+                </a>
+            {% endif %}
+            {% if not authenticated %}
+                <a href="/register">
+                    <i class="icon-login icons"></i>
                 </a>
             {% endif %}
         </footer>
@@ -753,6 +766,11 @@
     <script id="rendered-js">
 
         async function getHouse(name) {
+
+            if (!name || name.trim() === "") {
+                throw new Error("Name cannot be empty");
+            }
+
             const url = `${window.location.origin}/api/sortinghat/${name}`;
 
             const response = await fetch(url, {
@@ -778,8 +796,13 @@
                 'S': 'slytherin'
             };
 
-            let house = await getHouse($(".sort-house").val());
-            var item = houses[house];
+            try {
+                let house = await getHouse($(".sort-house").val());
+                var item = houses[house];
+            } catch (error) {
+                alert("Error: " + error.message);
+                return;
+            }
 
             setTimeout(function () {
                 $(".sorting-hat").addClass("animate");
